@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CMS Dashboard - Pepe Cárdenas</title>
+  <script>
+    window.addEventListener('error', function(e) {
+      fetch('/log', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'error',
+          message: e.message,
+          filename: e.filename,
+          lineno: e.lineno,
+          colno: e.colno,
+          stack: e.error ? e.error.stack : ''
+        })
+      });
+    });
+    window.addEventListener('unhandledrejection', function(e) {
+      fetch('/log', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          type: 'unhandledrejection',
+          reason: e.reason ? (e.reason.message || String(e.reason)) : '',
+          stack: e.reason ? e.reason.stack : ''
+        })
+      });
+    });
+  </script>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/cms.css">
+</head>
+<body class="cms-body">
+
+  <div class="cms-container">
+    
+    <!-- Sidebar: Projects list -->
+    <aside class="cms-sidebar">
+      <div class="cms-logo">
+        <h1 class="cms-sidebar-title">Gestor Portafolio</h1>
+        <button class="theme-toggle" aria-label="Cambiar tema" id="btn-theme-toggle">
+          <span class="toggle-thumb" id="theme-thumb">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 4V2M12 20V22M6.41421 6.41421L5 5M17.728 17.728L19.1422 19.1422M4 12H2M20 12H22M17.7285 6.41421L19.1427 5M6.4147 17.728L5.00049 19.1422M12 17C9.23858 17 7 14.7614 7 12C7 9.23858 9.23858 7 12 7C14.7614 7 17 9.23858 17 12C17 14.7614 14.7614 17 12 17Z"></path>
+            </svg>
+          </span>
+        </button>
+      </div>
+      
+      <button class="btn-primary" id="btn-create-project" style="width: 100%; justify-content: center;">
+        + Crear Proyecto
+      </button>
+      
+      <div class="projects-list" id="sidebar-projects-list">
+        <!-- Projects loaded dynamically from Firestore -->
+        <p class="text-p2" style="text-align: center; color: var(--color-grey);">Cargando proyectos...</p>
+      </div>
+      
+      <div style="border-top: 1px solid var(--color-grey-3); padding-top: 16px;">
+        <a href="index.html" class="btn-secondary" style="width: 100%; justify-content: center; box-sizing: border-box;">
+          Ver Portafolio
+        </a>
+      </div>
+    </aside>
+
+    <!-- Editor Main Panel -->
+    <main class="cms-editor">
+      
+      <!-- Editor Header -->
+      <div class="editor-header">
+        <h2 class="editor-title" id="editor-action-title">Editar Proyecto</h2>
+        <div class="editor-actions">
+          <button class="btn-secondary hidden" id="btn-delete-project" style="border-color: #ea4335; color: #ea4335;">
+            Eliminar
+          </button>
+          <button class="btn-primary" id="btn-save-project">
+            Guardar Cambios
+          </button>
+        </div>
+      </div>
+
+      <!-- Editor Forms Area -->
+      <form id="project-editor-form" onsubmit="event.preventDefault();">
+        
+        <!-- CARD: CONFIGURACIÓN BASE -->
+        <div class="editor-card">
+          <div class="editor-card-title-row">
+            <h3 class="editor-card-title">Información Básica</h3>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="proj-title">Título del Proyecto</label>
+              <input type="text" class="form-input" id="proj-title" placeholder="Ej: Rediseño web" required>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="proj-company">Compañía / Organización</label>
+              <input type="text" class="form-input" id="proj-company" placeholder="Ej: Prima AFP" required>
+            </div>
+          </div>
+          
+          <div class="form-row" style="margin-top: 16px;">
+            <div class="form-group">
+              <label class="form-label" for="proj-slug">Identificador / URL Slug</label>
+              <input type="text" class="form-input" id="proj-slug" placeholder="Ej: rediseno-web-prima-afp" required>
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="proj-order">Orden de Aparición (Número)</label>
+              <input type="number" class="form-input" id="proj-order" placeholder="Ej: 1" min="1" required>
+            </div>
+          </div>
+          
+          <div class="form-group" style="margin-top: 16px;">
+            <label class="form-label">Imagen de Tarjeta / Portada</label>
+            <div style="display: flex; gap: 16px; align-items: center;">
+              <input type="file" id="proj-file-thumb" accept="image/png, image/jpeg, image/gif" style="display: none;">
+              <button type="button" class="btn-secondary" onclick="document.getElementById('proj-file-thumb').click()">
+                Seleccionar Archivo (PNG, JPG, GIF)
+              </button>
+              <span class="text-p2" id="thumb-filename" style="color: var(--color-grey);">Ningún archivo seleccionado</span>
+            </div>
+            <input type="hidden" id="proj-thumbnail-url">
+            <div id="thumb-preview-container" class="hidden" style="margin-top: 12px;">
+              <img id="thumb-preview" src="" alt="Vista previa" style="max-height: 120px; border-radius: var(--radius-md); box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD: HERO SECTION -->
+        <div class="editor-card">
+          <div class="editor-card-title-row">
+            <h3 class="editor-card-title">Área de Héroe</h3>
+            <label class="switch-container">
+              <input type="checkbox" class="switch-input" id="toggle-hero" checked>
+              <span class="switch-slider"></span>
+              <span class="switch-label">Habilitar</span>
+            </label>
+          </div>
+          
+          <div id="hero-fields-container">
+            <div class="form-group">
+              <label class="form-label" for="hero-title">Título Hero</label>
+              <input type="text" class="form-input" id="hero-title" placeholder="Ej: Rediseñando la experiencia de pensiones digitales">
+            </div>
+            
+            <div class="form-group">
+              <label class="form-label" for="hero-subtitle">Subtítulo Hero</label>
+              <textarea class="form-textarea" id="hero-subtitle" placeholder="Ej: Un caso de estudio sobre cómo simplificar el acceso a fondos de jubilación..."></textarea>
+            </div>
+            
+            <div class="form-group" style="margin-top: 16px; margin-bottom: 16px;">
+              <label class="form-label">Imagen de Héroe (Opcional - Reemplaza a la portada en el detalle)</label>
+              <div style="display: flex; gap: 16px; align-items: center;">
+                <input type="file" id="hero-file-image" accept="image/png, image/jpeg, image/gif" style="display: none;">
+                <button type="button" class="btn-secondary" onclick="document.getElementById('hero-file-image').click()">
+                  Seleccionar Imagen de Héroe
+                </button>
+                <span class="text-p2" id="hero-image-filename" style="color: var(--color-grey);">Ningún archivo seleccionado</span>
+              </div>
+              <input type="hidden" id="hero-image-url">
+              <div id="hero-image-preview-container" class="hidden" style="margin-top: 12px;">
+                <img id="hero-image-preview" src="" alt="Vista previa del héroe" style="max-height: 120px; border-radius: var(--radius-md); box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+              </div>
+            </div>
+
+            <!-- Variables del Resumen Estratégico (Integrado en Héroe) -->
+            <div style="margin-top: 24px; border-top: 1px solid var(--color-grey-4); padding-top: 16px;">
+              <h4 class="form-label" style="font-weight: bold; margin-bottom: 16px; font-size: 14px; color: var(--color-primary);">Resumen Estratégico (Ficha del Proyecto)</h4>
+              
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="summary-client">Cliente</label>
+                  <input type="text" class="form-input" id="summary-client" placeholder="Ej: Prima AFP">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="summary-sector">Rubro</label>
+                  <input type="text" class="form-input" id="summary-sector" placeholder="Ej: Finanzas">
+                </div>
+              </div>
+              
+              <div class="form-row" style="margin-top: 16px;">
+                <div class="form-group">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <div style="display: flex; gap: 8px; align-items: center; flex-grow: 1;">
+                      <span class="form-label" style="font-size: 11px; color: var(--color-grey);">Título:</span>
+                      <input type="text" class="form-input" id="summary-type-label" placeholder="Tipo de proyecto" style="padding: 2px 8px; font-size: 11px; height: auto; min-height: 24px; width: auto; flex-grow: 1;">
+                    </div>
+                    <select id="summary-type-format" class="form-select" style="padding: 2px 8px; font-size: 11px; height: auto; min-height: 24px; width: auto; line-height: 1; margin-left: 8px;">
+                      <option value="bullets">Bullets</option>
+                      <option value="paragraph" selected>Párrafo</option>
+                    </select>
+                  </div>
+                  <textarea class="form-textarea" id="summary-type" placeholder="Ej: Rediseño de la arquitectura..."></textarea>
+                </div>
+                <div class="form-group">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <div style="display: flex; gap: 8px; align-items: center; flex-grow: 1;">
+                      <span class="form-label" style="font-size: 11px; color: var(--color-grey);">Título:</span>
+                      <input type="text" class="form-input" id="summary-tools-label" placeholder="Herramientas y tecnologías" style="padding: 2px 8px; font-size: 11px; height: auto; min-height: 24px; width: auto; flex-grow: 1;">
+                    </div>
+                    <select id="summary-tools-format" class="form-select" style="padding: 2px 8px; font-size: 11px; height: auto; min-height: 24px; width: auto; line-height: 1; margin-left: 8px;">
+                      <option value="bullets">Bullets</option>
+                      <option value="paragraph">Párrafo</option>
+                    </select>
+                  </div>
+                  <textarea class="form-textarea" id="summary-tools" placeholder="Life centered design&#10;Agile Scrum&#10;Figma"></textarea>
+                </div>
+              </div>
+              
+              <div class="form-row" style="margin-top: 16px;">
+                <div class="form-group">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <div style="display: flex; gap: 8px; align-items: center; flex-grow: 1;">
+                      <span class="form-label" style="font-size: 11px; color: var(--color-grey);">Título:</span>
+                      <input type="text" class="form-input" id="summary-scope-label" placeholder="Scope del proyecto" style="padding: 2px 8px; font-size: 11px; height: auto; min-height: 24px; width: auto; flex-grow: 1;">
+                    </div>
+                    <select id="summary-scope-format" class="form-select" style="padding: 2px 8px; font-size: 11px; height: auto; min-height: 24px; width: auto; line-height: 1; margin-left: 8px;">
+                      <option value="bullets">Bullets</option>
+                      <option value="paragraph">Párrafo</option>
+                    </select>
+                  </div>
+                  <textarea class="form-textarea" id="summary-scope" placeholder="Análisis Heurístico&#10;Benchmark"></textarea>
+                </div>
+                <div class="form-group">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+                    <div style="display: flex; gap: 8px; align-items: center; flex-grow: 1;">
+                      <span class="form-label" style="font-size: 11px; color: var(--color-grey);">Título:</span>
+                      <input type="text" class="form-input" id="summary-metrics-label" placeholder="Métricas de impacto" style="padding: 2px 8px; font-size: 11px; height: auto; min-height: 24px; width: auto; flex-grow: 1;">
+                    </div>
+                    <select id="summary-metrics-format" class="form-select" style="padding: 2px 8px; font-size: 11px; height: auto; min-height: 24px; width: auto; line-height: 1; margin-left: 8px;">
+                      <option value="bullets">Bullets</option>
+                      <option value="paragraph">Párrafo</option>
+                    </select>
+                  </div>
+                  <textarea class="form-textarea" id="summary-metrics" placeholder="Centradas en el usuario: NPS&#10;Centradas en negocio: Conversión"></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD: CONTENIDO DINÁMICO (Bloques) -->
+        <div class="editor-card">
+          <div class="editor-card-title-row">
+            <h3 class="editor-card-title">Contenido del Detalle (Constructor Dinámico)</h3>
+            <label class="switch-container">
+              <input type="checkbox" class="switch-input" id="toggle-content" checked>
+              <span class="switch-slider"></span>
+              <span class="switch-label">Habilitar</span>
+            </label>
+          </div>
+          
+          <div id="content-fields-container">
+            <div class="blocks-list" id="builder-blocks-container">
+              <!-- Content blocks rendered here dynamically -->
+            </div>
+            
+            <div class="builder-triggers">
+              <button type="button" class="btn-secondary" id="btn-add-text-block">
+                + Añadir Bloque de Texto
+              </button>
+              <button type="button" class="btn-secondary" id="btn-add-media-block">
+                + Añadir Bloque Multimedia
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD: CONCLUSIONES -->
+        <div class="editor-card">
+          <div class="editor-card-title-row">
+            <h3 class="editor-card-title">Conclusiones</h3>
+            <label class="switch-container">
+              <input type="checkbox" class="switch-input" id="toggle-conclusions" checked>
+              <span class="switch-slider"></span>
+              <span class="switch-label">Habilitar</span>
+            </label>
+          </div>
+          
+          <div id="conclusions-fields-container">
+            <div class="form-group">
+              <label class="form-label" for="conclusion-results">Resultados del Proyecto</label>
+              <textarea class="form-textarea" id="conclusion-results" placeholder="Escribe las conclusiones y resultados finales del caso..."></textarea>
+            </div>
+            
+            <div class="form-group" style="margin-top: 16px;">
+              <label class="form-label" for="conclusion-nextsteps">Siguientes Pasos</label>
+              <textarea class="form-textarea" id="conclusion-nextsteps" placeholder="Escribe los próximos pasos u optimizaciones planteadas..."></textarea>
+            </div>
+          </div>
+        </div>
+
+      </form>
+
+    </main>
+    
+  </div>
+
+  <!-- Modal de Recorte de Imagen (Cropper) -->
+  <div id="cropper-modal" class="cropper-modal">
+    <div class="cropper-modal-content">
+      <div class="cropper-modal-header">
+        <h3 class="editor-card-title" style="margin: 0;">Encuadrar y Ajustar Portada</h3>
+        <button type="button" class="btn-icon-delete" id="btn-close-cropper" style="color: var(--color-primary); font-size: 20px; font-weight: bold; padding: 4px;">✕</button>
+      </div>
+      <div class="cropper-container-wrapper">
+        <img id="cropper-image-src" src="" alt="Imagen a ajustar" style="max-width: 100%; display: block;">
+      </div>
+      <div class="cropper-modal-actions">
+        <div class="cropper-zoom-controls">
+          <button type="button" class="btn-secondary" id="btn-zoom-out" style="padding: var(--size-8) var(--size-12); font-size: 12px; border-radius: var(--radius-md);">Zoom -</button>
+          <button type="button" class="btn-secondary" id="btn-zoom-in" style="padding: var(--size-8) var(--size-12); font-size: 12px; border-radius: var(--radius-md);">Zoom +</button>
+        </div>
+        <div style="display: flex; gap: 12px;">
+          <button type="button" class="btn-secondary" id="btn-cancel-crop" style="border-radius: var(--radius-pill);">Cancelar</button>
+          <button type="button" class="btn-primary" id="btn-apply-crop" style="border-radius: var(--radius-pill);">Aplicar Recorte</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notification message -->
+  <div class="toast-msg" id="toast-message">Cambios guardados con éxito.</div>
+
+  <!-- Scripts -->
+  <script src="js/theme.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.6.1/cropper.min.js"></script>
+  <script type="module" src="js/cms.js"></script>
+</body>
+</html>

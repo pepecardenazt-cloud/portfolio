@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Geist:wght@100..900&display=swap');
+
+:root {
+  /* ==========================================
+     COLOR TOKENS
+     ========================================== */
+  --color-primary: #06062A;   /* Azul marino muy oscuro */
+  --color-primary-2: #000070; /* Azul eléctrico */
+  --color-secondary: #ECCB74; /* Amarillo dorado/arena */
+  --color-tertiary: #FAFAFA;  /* Blanco roto / Gris de fondo */
+  --color-black: #040419;     /* Negro azulado */
+  --color-grey: #727272;      /* Gris principal de texto */
+  --color-grey-2: #B2B2B2;    /* Gris intermedio para bordes/placeholders */
+  --color-grey-3: #E7E4E4;    /* Gris claro para fondos secundarios */
+  --color-grey-4: #EFEFEF;    /* Gris muy claro para divisores/tarjetas */
+
+  /* ==========================================
+     FONT WEIGHT TOKENS
+     ========================================== */
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+
+  /* ==========================================
+     SPACING AND SIZING TOKENS (Numbers)
+     ========================================== */
+  --size-0: 0px;
+  --size-4: 4px;
+  --size-8: 8px;
+  --size-12: 12px;
+  --size-14: 14px;
+  --size-16: 16px;
+  --size-24: 24px;
+  --size-28: 28px;
+  --size-32: 32px;
+  --size-40: 40px;
+  --size-48: 48px;
+  --size-56: 56px;
+  --size-64: 64px;
+  --size-72: 72px;
+  --size-80: 80px;
+  --size-192: 192px;
+  --size-280: 280px;
+
+  /* Alias semánticos para espaciado */
+  --spacing-none: var(--size-0);
+  --spacing-xs: var(--size-4);
+  --spacing-sm: var(--size-8);
+  --spacing-md: var(--size-12);
+  --spacing-lg: var(--size-16);
+  --spacing-xl: var(--size-24);
+  --spacing-2xl: var(--size-32);
+  --spacing-3xl: var(--size-48);
+  --spacing-4xl: var(--size-64);
+  --spacing-5xl: var(--size-80);
+
+  /* Alias semánticos para radios de borde */
+  --radius-sm: var(--size-4);
+  --radius-md: var(--size-8);
+  --radius-lg: var(--size-12);
+  --radius-xl: var(--size-16);
+  --radius-pill: 9999px;
+
+  /* ==========================================
+     TYPOGRAPHY TOKENS (Base: Geist)
+     ========================================== */
+  --font-family: 'Geist', sans-serif;
+
+  /* h1 - title */
+  --font-h1-size: var(--size-40);
+  --font-h1-weight: var(--font-weight-medium);
+  --font-h1-lh: var(--size-48);
+  --font-h1-ls: 0%;
+
+  /* h2 - Title */
+  --font-h2-size: var(--size-28);
+  --font-h2-weight: var(--font-weight-semibold);
+  --font-h2-lh: var(--size-40);
+  --font-h2-ls: 0%;
+
+  /* h3 - subtitle */
+  --font-h3-size: var(--size-24);
+  --font-h3-weight: var(--font-weight-semibold);
+  --font-h3-lh: var(--size-32);
+  --font-h3-ls: 0%;
+
+  /* p - text */
+  --font-p-size: var(--size-16);
+  --font-p-weight: var(--font-weight-regular);
+  --font-p-lh: var(--size-24);
+  --font-p-ls: 0%;
+
+  /* p2 - text2 */
+  --font-p2-size: var(--size-14);
+  --font-p2-weight: var(--font-weight-regular);
+  --font-p2-lh: var(--size-24);
+  --font-p2-ls: 0%;
+}
+
+/* ==========================================
+   TYPOGRAPHY CLASSES
+   ========================================== */
+.text-h1 {
+  font-family: var(--font-family);
+  font-size: var(--font-h1-size);
+  font-weight: var(--font-h1-weight);
+  line-height: var(--font-h1-lh);
+  letter-spacing: var(--font-h1-ls);
+  color: var(--color-primary);
+}
+
+.text-h2 {
+  font-family: var(--font-family);
+  font-size: var(--font-h2-size);
+  font-weight: var(--font-h2-weight);
+  line-height: var(--font-h2-lh);
+  letter-spacing: var(--font-h2-ls);
+  color: var(--color-primary);
+}
+
+.text-h3 {
+  font-family: var(--font-family);
+  font-size: var(--font-h3-size);
+  font-weight: var(--font-h3-weight);
+  line-height: var(--font-h3-lh);
+  letter-spacing: var(--font-h3-ls);
+  color: var(--color-primary);
+}
+
+.text-p {
+  font-family: var(--font-family);
+  font-size: var(--font-p-size);
+  font-weight: var(--font-p-weight);
+  line-height: var(--font-p-lh);
+  letter-spacing: var(--font-p-ls);
+  color: var(--color-grey);
+}
+
+.text-p2 {
+  font-family: var(--font-family);
+  font-size: var(--font-p2-size);
+  font-weight: var(--font-p2-weight);
+  line-height: var(--font-p2-lh);
+  letter-spacing: var(--font-p2-ls);
+  color: var(--color-grey);
+}
+
+/* ==========================================
+   THEME UTILITIES
+   ========================================== */
+body {
+  background-color: var(--color-tertiary);
+  color: var(--color-black);
+  font-family: var(--font-family);
+  margin: var(--spacing-none);
+  padding: var(--spacing-none);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
