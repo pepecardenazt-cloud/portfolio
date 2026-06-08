@@ -137,23 +137,23 @@ header.site-header {
   }
   
   header.site-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    padding-top: 32px;
-    padding-bottom: 16px;
-    margin-bottom: 32px;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    position: relative !important;
+    padding-top: 32px !important;
+    padding-bottom: 0 !important;
+    margin-bottom: 32px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
   }
 
   .header-actions {
-    position: absolute;
-    right: var(--size-24);
-    top: 50%;
-    transform: translateY(-50%);
-    display: flex;
-    align-items: center;
-    gap: var(--size-16);
+    position: static !important;
+    transform: none !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 0 !important;
   }
 
   .header-wrapper.reveal {
@@ -179,12 +179,6 @@ header.site-header {
     gap: 2px;
   }
 
-  .hero-profile #btn-theme-toggle {
-    margin-left: auto;
-    margin-right: 0;
-    position: relative;
-  }
-
   .tech-tags-container {
     padding-top: 16px;
     padding-bottom: 16px;
@@ -198,17 +192,15 @@ header.site-header {
     transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     display: flex;
     align-items: center;
-    max-width: calc(100% - 80px);
-    box-sizing: border-box;
+    max-width: calc(100% - 88px) !important; /* 64px width + 24px gap */
+    height: 48px !important;
+    padding: 4px 8px !important;
+    box-sizing: border-box !important;
   }
 
   body.dark-mode header.site-header nav {
     background-color: var(--color-grey-3);
     border-color: var(--color-grey-2);
-  }
-
-  body:has(.hero-profile) header.site-header nav {
-    max-width: 100%;
   }
 
   /* Scrolled states for the nav container on mobile */
@@ -237,9 +229,11 @@ header.site-header {
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
     -webkit-overflow-scrolling: touch;
-    padding: 4px 12px;
-    gap: 8px;
+    padding: 0 !important;
+    gap: 8px !important;
     scrollbar-width: none;
+    height: 100% !important;
+    align-items: center !important;
   }
 
   .header-wrapper.scrolled .nav-pill {
@@ -263,9 +257,13 @@ header.site-header {
   }
 
   .nav-pill a {
-    padding: 8px 14px;
-    font-size: 13px;
-    white-space: nowrap;
+    padding: 8px 8px !important;
+    font-size: 13px !important;
+    white-space: nowrap !important;
+    height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    box-sizing: border-box !important;
   }
 
   .project-card-info {
@@ -322,14 +320,6 @@ body.dark-mode .nav-pill {
 .nav-pill li.active a {
   font-weight: var(--font-weight-medium);
   color: var(--color-primary);
-  gap: 10px;
-}
-
-.nav-pill li.active a::before {
-  content: "•";
-  color: var(--color-primary);
-  font-size: 16px;
-  line-height: 1;
 }
 
 /* Header Right Actions */

@@ -22,32 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Move theme toggle dynamically on mobile on home page (has hero-profile)
-  const heroProfile = document.querySelector('.hero-profile');
-  if (heroProfile && themeToggleBtn) {
-    const handleViewportChange = (e) => {
-      if (e.matches) {
-        // Mobile: move toggle button inside hero-profile
-        if (!heroProfile.contains(themeToggleBtn)) {
-          heroProfile.appendChild(themeToggleBtn);
-        }
-      } else {
-        // Desktop: move toggle button back to header-actions
-        const headerActions = document.querySelector('.header-actions');
-        if (headerActions && !headerActions.contains(themeToggleBtn)) {
-          headerActions.appendChild(themeToggleBtn);
-        }
-      }
-    };
-    
-    const mediaQuery = window.matchMedia('(max-width: 768px)');
-    try {
-      mediaQuery.addEventListener('change', handleViewportChange);
-    } catch (err) {
-      mediaQuery.addListener(handleViewportChange);
-    }
-    handleViewportChange(mediaQuery); // Run once initially
-  }
+
 
   // Scroll detection for sticky header shadow
   const headerWrapper = document.querySelector('.header-wrapper');
