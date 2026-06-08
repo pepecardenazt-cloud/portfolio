@@ -154,6 +154,17 @@ header.site-header {
     display: flex !important;
     align-items: center !important;
     gap: 0 !important;
+    width: 64px !important;
+    opacity: 1 !important;
+    overflow: hidden !important;
+    transition: opacity 0.3s ease, width 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+    flex-shrink: 0 !important;
+  }
+
+  .header-wrapper.scrolled .header-actions {
+    opacity: 0 !important;
+    width: 0 !important;
+    pointer-events: none !important;
   }
 
   .header-wrapper.reveal {
@@ -182,6 +193,19 @@ header.site-header {
   .tech-tags-container {
     padding-top: 16px;
     padding-bottom: 16px;
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  .tech-tags-container::-webkit-scrollbar {
+    display: none;
+  }
+
+  .tech-tags-track {
+    gap: 16px !important;
+    padding-right: 16px !important;
+    animation: none !important;
   }
 
   /* Move glassmorphic background & blur to nav container to bypass mobile overflow-x + backdrop-filter browser bug */
@@ -189,9 +213,10 @@ header.site-header {
     background-color: var(--color-grey-4);
     border-radius: var(--radius-pill);
     border: 1px solid transparent;
-    transition: background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    transition: flex-grow 0.4s cubic-bezier(0.16, 1, 0.3, 1), max-width 0.4s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease !important;
     display: flex;
     align-items: center;
+    flex-grow: 0 !important;
     max-width: calc(100% - 88px) !important; /* 64px width + 24px gap */
     height: 48px !important;
     padding: 4px 8px !important;
@@ -205,6 +230,8 @@ header.site-header {
 
   /* Scrolled states for the nav container on mobile */
   .header-wrapper.scrolled header.site-header nav {
+    flex-grow: 1 !important;
+    max-width: 100% !important;
     background-color: rgba(255, 255, 255, 0.85) !important;
     backdrop-filter: blur(40px) !important;
     -webkit-backdrop-filter: blur(40px) !important;
@@ -242,6 +269,7 @@ header.site-header {
     box-shadow: none !important;
     backdrop-filter: none !important;
     -webkit-backdrop-filter: none !important;
+    justify-content: center !important;
   }
 
   body.dark-mode .header-wrapper.scrolled .nav-pill {
@@ -318,7 +346,7 @@ body.dark-mode .nav-pill {
 }
 
 .nav-pill li.active a {
-  font-weight: var(--font-weight-medium);
+  font-weight: var(--font-weight-semibold);
   color: var(--color-primary);
 }
 
