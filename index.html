@@ -12,13 +12,13 @@
 <body>
 
   <!-- Site Header -->
-  <div class="header-wrapper reveal reveal-delay-1">
-    <header class="site-header container">
+  <div class="header-wrapper">
+    <header class="site-header container reveal reveal-delay-1">
       <nav aria-label="Navegación principal">
         <ul class="nav-pill">
           <li class="active"><a href="index.html" id="nav-inicio">Inicio</a></li>
           <li><a href="sobre-mi.html" id="nav-sobre-mi">Sobre mí</a></li>
-          <li><a href="#proyectos" id="nav-trabajos">Mis proyectos</a></li>
+          <li><a href="proyectos.html" id="nav-trabajos">Mis proyectos</a></li>
         </ul>
       </nav>
       
@@ -98,6 +98,14 @@
       <div class="projects-grid reveal reveal-delay-5" id="projects-grid-container">
         <!-- Cargado dinámicamente desde Firestore/LocalStorage -->
       </div>
+      <div class="projects-more-container reveal reveal-delay-5" style="text-align: center; margin-top: var(--size-32); margin-bottom: var(--size-32);">
+        <a href="proyectos.html" class="btn-tertiary" id="btn-ver-mas-proyectos">
+          Revisa todos mis proyectos
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="margin-left: 6px; display: inline-block; vertical-align: middle;">
+            <path d="M7 17L17 7M17 15V7H9" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
     </section>
 
     <!-- Experience Section (Construí diseños y aprendí en) -->
@@ -127,37 +135,11 @@
     <section class="container" aria-label="Navegación complementaria">
       <div class="navigation-cards-row reveal reveal-delay-6">
         
-        <!-- Navigation Card 1 -->
-        <a href="#proyectos" class="nav-card" id="nav-card-trabajos">
-          <div>
-            <span class="nav-card-label">Ver todos mis proyectos</span>
-            <h3 class="nav-card-title">Conoce como trabajo</h3>
-          </div>
-          <span class="nav-card-arrow">
-            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M11.6667 28.3333L28.3333 11.6666M28.3333 25V11.6666H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
-        </a>
-
-        <!-- Navigation Card 2 -->
+        <!-- Navigation Card (Sobre Mí) -->
         <a href="sobre-mi.html" class="nav-card" id="nav-card-sobre-mi">
           <div>
             <span class="nav-card-label">Ver sobre mí</span>
             <h3 class="nav-card-title">Revisa mi trayectoria</h3>
-          </div>
-          <span class="nav-card-arrow">
-            <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M11.6667 28.3333L28.3333 11.6666M28.3333 25V11.6666H15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
-        </a>
-
-        <!-- Navigation Card 3 -->
-        <a href="experimentos.html" class="nav-card" id="nav-card-experimentos">
-          <div>
-            <span class="nav-card-label">Ver mis experimentos</span>
-            <h3 class="nav-card-title">Descubre lo que me apasiona</h3>
           </div>
           <span class="nav-card-arrow">
             <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -186,7 +168,7 @@
       <div class="footer-right">
         <div class="footer-links-col">
           <a href="index.html" class="footer-link" id="footer-link-inicio">Inicio</a>
-          <a href="#proyectos" class="footer-link" id="footer-link-trabajos">Mis proyectos</a>
+          <a href="proyectos.html" class="footer-link" id="footer-link-trabajos">Mis proyectos</a>
           <a href="https://instagram.com/pepecardenast" target="_blank" rel="noopener" class="footer-link" id="footer-link-instagram">
             Instagram
             <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -206,6 +188,9 @@
       </div>
     </div>
   </footer>
+
+  <!-- Floating Contact Button for Mobile -->
+  <a href="contacto.html" class="btn-primary" id="btn-contacto-float">Contáctame ahora</a>
 
   <!-- Scripts -->
   <script src="js/theme.js"></script>

@@ -15,8 +15,10 @@ document.addEventListener('DOMContentLoaded', () => {
       gridContainer.innerHTML = '';
       
       const docs = snapshot.docs || [];
+      const isHomepage = window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('/');
+      const displayedDocs = isHomepage ? docs.slice(0, 4) : docs;
       
-      if (docs.length === 0) {
+      if (displayedDocs.length === 0) {
         gridContainer.innerHTML = `
           <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: var(--color-grey); font-family: var(--font-family);">
             <p class="text-p">No se encontraron proyectos creados. Visita el CMS para crear tu primer proyecto.</p>
@@ -25,7 +27,7 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
       }
       
-      docs.forEach(doc => {
+      displayedDocs.forEach(doc => {
         const project = doc.data();
         const id = doc.id;
         

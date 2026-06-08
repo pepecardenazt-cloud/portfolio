@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Mis Proyectos - Portafolio completo de casos de estudio de diseño de productos, servicios y UX por Pepe Cárdenas.">
+  <title>Mis Proyectos - Pepe Cárdenas</title>
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Site Header -->
+  <div class="header-wrapper">
+    <header class="site-header container reveal reveal-delay-1">
+      <nav aria-label="Navegación principal">
+        <ul class="nav-pill">
+          <li><a href="index.html" id="nav-inicio">Inicio</a></li>
+          <li><a href="sobre-mi.html" id="nav-sobre-mi">Sobre mí</a></li>
+          <li class="active"><a href="proyectos.html" id="nav-trabajos">Mis proyectos</a></li>
+        </ul>
+      </nav>
+      
+      <div class="header-actions">
+        <a href="contacto.html" class="btn-primary" id="btn-contacto-header">Contáctame ahora</a>
+        <button class="theme-toggle" aria-label="Cambiar tema claro/oscuro" id="btn-theme-toggle">
+          <span class="toggle-thumb" id="theme-thumb">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 4V2M12 20V22M6.41421 6.41421L5 5M17.728 17.728L19.1422 19.1422M4 12H2M20 12H22M17.7285 6.41421L19.1427 5M6.4147 17.728L5.00049 19.1422M12 17C9.23858 17 7 14.7614 7 12C7 9.23858 9.23858 7 12 7C14.7614 7 17 9.23858 17 12C17 14.7614 14.7614 17 12 17Z"></path>
+            </svg>
+          </span>
+        </button>
+      </div>
+    </header>
+  </div>
+
+  <main>
+    <!-- Projects Page Header -->
+    <section class="container reveal reveal-delay-2" style="margin-top: var(--size-24); margin-bottom: var(--size-48);">
+      <h1 class="text-h1" style="margin: 0 0 var(--size-8) 0;">Mis proyectos</h1>
+      <p class="text-p" style="margin: 0; max-width: 600px;">
+        Una selección de casos de estudio de diseño de productos, servicios y estrategia digital.
+      </p>
+    </section>
+
+    <!-- Projects Grid Section -->
+    <section class="container" id="proyectos" aria-label="Todos los Proyectos">
+      <div class="projects-grid reveal reveal-delay-3" id="projects-grid-container">
+        <!-- Cargado dinámicamente desde Firestore/LocalStorage -->
+      </div>
+    </section>
+  </main>
+
+  <!-- Site Footer -->
+  <footer class="site-footer reveal reveal-delay-4">
+    <div class="footer-content container">
+      <div class="footer-left">
+        <h2 class="footer-cta-title">Llegaste al final, pongámonos en contacto</h2>
+        <a href="contacto.html" class="btn-footer" id="btn-contacto-footer">
+          Contáctame ahora
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 17L17 7M17 15V7H9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+      </div>
+      
+      <div class="footer-right">
+        <div class="footer-links-col">
+          <a href="index.html" class="footer-link" id="footer-link-inicio">Inicio</a>
+          <a href="proyectos.html" class="footer-link" id="footer-link-trabajos">Mis proyectos</a>
+          <a href="https://instagram.com/pepecardenast" target="_blank" rel="noopener" class="footer-link" id="footer-link-instagram">
+            Instagram
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 17L17 7M17 15V7H9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+        <div class="footer-links-col">
+          <a href="sobre-mi.html" class="footer-link" id="footer-link-sobre-mi">Sobre mí</a>
+          <a href="https://linkedin.com/in/pepecardenas" target="_blank" rel="noopener" class="footer-link" id="footer-link-linkedin">
+            Linkedin
+            <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M7 17L17 7M17 15V7H9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating Contact Button for Mobile -->
+  <a href="contacto.html" class="btn-primary" id="btn-contacto-float">Contáctame ahora</a>
+
+  <!-- Scripts -->
+  <script src="js/theme.js"></script>
+  <script type="module" src="js/projects-grid.js"></script>
+</body>
+</html>

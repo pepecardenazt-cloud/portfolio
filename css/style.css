@@ -5,8 +5,11 @@
    ========================================== */
 body {
   transition: background-color 0.3s ease, color 0.3s ease;
-  overflow-x: clip;
   --color-nav-inactive: #44445c;
+}
+
+main, footer {
+  overflow-x: clip;
 }
 
 /* ==========================================
@@ -134,14 +137,20 @@ header.site-header {
   }
   
   header.site-header {
-    flex-direction: row;
-    justify-content: space-between;
+    display: flex;
+    justify-content: center;
     align-items: center;
-    padding-top: var(--size-16);
-    padding-bottom: var(--size-16);
+    position: relative;
+    padding-top: 32px;
+    padding-bottom: 16px;
+    margin-bottom: 32px;
   }
 
   .header-actions {
+    position: absolute;
+    right: var(--size-24);
+    top: 50%;
+    transform: translateY(-50%);
     display: flex;
     align-items: center;
     gap: var(--size-16);
@@ -154,49 +163,31 @@ header.site-header {
   }
 
   #btn-contacto-header {
-    position: fixed;
-    bottom: var(--size-24);
-    left: var(--size-24);
-    right: var(--size-24);
-    width: auto;
-    height: 48px !important;
-    border-radius: var(--radius-pill);
-    z-index: 2000;
-    margin: 0;
-    box-shadow: 0 8px 30px rgba(6, 6, 42, 0.2);
-    box-sizing: border-box;
-  }
-
-  /* Override shadow color in dark mode for high contrast floating effect */
-  body.dark-mode #btn-contacto-header {
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-  }
-
-  /* Prevent scrolled translucent glassmorphism overriding floating contact button solid background on mobile */
-  .header-wrapper.scrolled .header-actions #btn-contacto-header {
-    background-color: var(--color-primary) !important;
-    color: var(--color-tertiary) !important;
-    box-shadow: 0 8px 30px rgba(6, 6, 42, 0.2) !important;
-    border-color: var(--color-primary) !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-  }
-
-  body.dark-mode .header-wrapper.scrolled .header-actions #btn-contacto-header {
-    background-color: var(--color-primary) !important; /* white in dark mode */
-    color: var(--color-tertiary) !important; /* dark in dark mode */
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4) !important;
-    border-color: var(--color-primary) !important;
+    display: none !important;
   }
 
   body {
     padding-bottom: 96px;
   }
 
+  .hero-profile {
+    gap: 16px;
+    margin-bottom: 24px;
+  }
+
+  .profile-info {
+    gap: 2px;
+  }
+
   .hero-profile #btn-theme-toggle {
     margin-left: auto;
     margin-right: 0;
     position: relative;
+  }
+
+  .tech-tags-container {
+    padding-top: 16px;
+    padding-bottom: 16px;
   }
 
   /* Move glassmorphic background & blur to nav container to bypass mobile overflow-x + backdrop-filter browser bug */
@@ -247,6 +238,7 @@ header.site-header {
     -webkit-backdrop-filter: none !important;
     -webkit-overflow-scrolling: touch;
     padding: 4px 12px;
+    gap: 8px;
     scrollbar-width: none;
   }
 
@@ -271,9 +263,13 @@ header.site-header {
   }
 
   .nav-pill a {
-    padding: 6px 12px;
+    padding: 8px 14px;
     font-size: 13px;
     white-space: nowrap;
+  }
+
+  .project-card-info {
+    padding: 16px 0 0 0;
   }
 
   .text-h1 {
@@ -346,6 +342,10 @@ body.dark-mode .nav-pill {
 #btn-contacto-header,
 #btn-theme-toggle {
   height: 40px;
+}
+
+#btn-contacto-float {
+  display: none;
 }
 
 @media (max-width: 480px) {
@@ -589,13 +589,6 @@ body.dark-mode .theme-toggle .toggle-thumb {
   margin-bottom: var(--size-56);
 }
 
-@media (max-width: 768px) {
-  .projects-grid {
-    grid-template-columns: 1fr;
-    row-gap: var(--size-32);
-  }
-}
-
 .project-card {
   text-decoration: none;
   display: block;
@@ -630,7 +623,7 @@ body.dark-mode .project-card-container {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 0;
+  border-radius: inherit;
   transition: transform 0.4s ease, filter 0.4s ease;
   cursor: pointer;
 }
@@ -719,7 +712,7 @@ body.dark-mode .project-card-container.placeholder-card::before {
    ========================================== */
 .navigation-cards-row {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: 1fr;
   gap: var(--size-24);
   margin-bottom: var(--size-80);
 }
@@ -1487,6 +1480,100 @@ body.dark-mode .experience-line {
     width: 100%;
     height: 1px;
     margin: var(--size-8) 0;
+  }
+}
+
+/* Tertiary Button Style */
+.btn-tertiary {
+  background: none;
+  border: none;
+  color: var(--color-primary);
+  font-family: var(--font-family);
+  font-size: var(--font-p-size);
+  font-weight: var(--font-weight-semibold);
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--size-8);
+  transition: opacity 0.2s ease, transform 0.2s ease;
+  padding: var(--size-12) var(--size-24);
+}
+
+.btn-tertiary:hover {
+  opacity: 0.8;
+}
+
+.btn-tertiary svg {
+  transition: transform 0.2s ease;
+}
+
+.btn-tertiary:hover svg {
+  transform: translate(2px, -2px);
+}
+
+body.dark-mode .btn-tertiary {
+  color: #FAFAFA;
+}
+
+/* ==========================================
+   MOBILE LAYOUT OVERRIDES (PREVENTS OVERRIDING BY GLOBAL STYLES)
+   ========================================== */
+@media (max-width: 768px) {
+  .hero-title {
+    margin: 0 0 var(--size-24) 0 !important;
+  }
+
+  .tech-tags-container {
+    margin-bottom: var(--size-24) !important;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr !important;
+    row-gap: var(--size-32) !important;
+    margin-left: -24px !important;
+    margin-right: -24px !important;
+  }
+
+  .project-card-container {
+    height: 240px !important;
+    border-radius: 0 !important;
+  }
+
+  .project-card-container img,
+  .project-card-container.placeholder-card::before {
+    border-radius: 0 !important;
+  }
+
+  .project-card-info {
+    padding: 16px var(--size-24) 0 var(--size-24) !important;
+  }
+
+  #btn-contacto-float {
+    display: inline-flex !important;
+    position: fixed !important;
+    bottom: var(--size-24) !important;
+    left: var(--size-24) !important;
+    right: var(--size-24) !important;
+    width: auto !important;
+    height: 48px !important;
+    border-radius: var(--radius-pill) !important;
+    z-index: 2000 !important;
+    margin: 0 !important;
+    box-shadow: 0 8px 30px rgba(6, 6, 42, 0.2) !important;
+    box-sizing: border-box !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background-color: var(--color-primary) !important;
+    color: var(--color-tertiary) !important;
+    border: 1px solid var(--color-primary) !important;
+  }
+
+  body.dark-mode #btn-contacto-float {
+    background-color: var(--color-primary) !important;
+    color: var(--color-tertiary) !important;
+    border-color: var(--color-primary) !important;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4) !important;
   }
 }
 
